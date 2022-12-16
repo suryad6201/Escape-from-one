@@ -1,34 +1,34 @@
-'use strict';
+"use strict";
 
 //Selecting Elements;
-const score0El = document.querySelector('#score--0');
-const score1El = document.querySelector('#score--1');
-const diceEl = document.querySelector('.dice');
-const current0El = document.querySelector('#current--0');
-const current1El = document.querySelector('#current--1');
-const player0El = document.querySelector('.player--0');
-const player1El = document.querySelector('.player--1');
-const namePlayer0 = document.querySelector('#name--0');
-const namePlayer1 = document.querySelector('#name--1');
+const score0El = document.querySelector("#score--0");
+const score1El = document.querySelector("#score--1");
+const diceEl = document.querySelector(".dice");
+const current0El = document.querySelector("#current--0");
+const current1El = document.querySelector("#current--1");
+const player0El = document.querySelector(".player--0");
+const player1El = document.querySelector(".player--1");
+const namePlayer0 = document.querySelector("#name--0");
+const namePlayer1 = document.querySelector("#name--1");
 
 //Modal Window
-const modalWindow = document.querySelector('.modal');
-const overlay = document.querySelector('.overlay');
-const closeModal = document.querySelector('.close-modal');
+const modalWindow = document.querySelector(".modal");
+const overlay = document.querySelector(".overlay");
+const closeModal = document.querySelector(".close-modal");
 
 //Button Elements
-const btnNew = document.querySelector('.btn--new');
-const btnRoll = document.querySelector('.btn--roll');
-const btnHold = document.querySelector('.btn--hold');
-const instruction = document.querySelector('.btn--instruction');
+const btnNew = document.querySelector(".btn--new");
+const btnRoll = document.querySelector(".btn--roll");
+const btnHold = document.querySelector(".btn--hold");
+const instruction = document.querySelector(".btn--instruction");
 
 //Audio Elements
-const victory = document.querySelector('#victory');
-const newGame = document.querySelector('#newGame');
-const diceAudio = document.querySelector('#diceAudio');
-const holdAudio = document.querySelector('#holdAudio');
-const switchAudio = document.querySelector('#switchAudio');
-const instructionAudio = document.querySelector('#instructionAudio');
+const victory = document.querySelector("#victory");
+const newGame = document.querySelector("#newGame");
+const diceAudio = document.querySelector("#diceAudio");
+const holdAudio = document.querySelector("#holdAudio");
+const switchAudio = document.querySelector("#switchAudio");
+const instructionAudio = document.querySelector("#instructionAudio");
 
 let player0 =
   prompt(`Note: Sorry! Game is not responsive..Please play in PC or Laptop for better experience. 
@@ -38,6 +38,11 @@ let player1 =
   prompt(`Note: Sorry! Game is not responsive..Please play in PC or Laptop for better experience.
 
 'Player 2', Please enter your name:`);
+
+//Display Player name if nothing entered in player prompt.
+player0 = player0 === "" ? "Player 1" : player0;
+player1 = player1 === "" ? "Player 2" : player1;
+
 let currentScore, activePlayer, scores, playable, players;
 
 //Initiating Function
@@ -53,42 +58,41 @@ const initiate = function () {
   current0El.textContent = 0;
   current1El.textContent = 0;
 
-  diceEl.classList.add('hidden');
-  player0El.classList.add('player--active');
-  player1El.classList.remove('player--active');
-  player0El.classList.remove('player--winner');
-  player1El.classList.remove('player--winner');
+  diceEl.classList.add("hidden");
+  player0El.classList.add("player--active");
+  player1El.classList.remove("player--active");
+  player0El.classList.remove("player--winner");
+  player1El.classList.remove("player--winner");
   namePlayer0.textContent = player0;
   namePlayer1.textContent = player1;
 };
-
 initiate();
 
 //Instruction Modal Window
 const hideModal = function () {
   //Function to hide Modal Window
-  modalWindow.classList.add('hidden');
-  overlay.classList.add('hidden');
+  modalWindow.classList.add("hidden");
+  overlay.classList.add("hidden");
 };
 const showModal = function () {
   //Function to show Modal Window
-  modalWindow.classList.remove('hidden');
-  overlay.classList.remove('hidden');
+  modalWindow.classList.remove("hidden");
+  overlay.classList.remove("hidden");
 };
 
 //To show instruction modal window when instruction btn is pressed
-instruction.addEventListener('click', function () {
+instruction.addEventListener("click", function () {
   instructionAudio.play();
   showModal();
 });
 
 //To close the modal window on button click, overlay click and Escape Key down
-closeModal.addEventListener('click', hideModal);
-overlay.addEventListener('click', hideModal);
-document.addEventListener('keydown', function (e) {
+closeModal.addEventListener("click", hideModal);
+overlay.addEventListener("click", hideModal);
+document.addEventListener("keydown", function (e) {
   console.log(e.key);
-  if (e.key === 'Escape') {
-    if (!modalWindow.classList.contains('hidden')) {
+  if (e.key === "Escape") {
+    if (!modalWindow.classList.contains("hidden")) {
       hideModal();
     }
   }
@@ -99,15 +103,15 @@ const switchPlayer = function () {
   currentScore = 0;
   document.querySelector(`#current--${activePlayer}`).textContent = 0;
   activePlayer = activePlayer === 0 ? 1 : 0;
-  player0El.classList.toggle('player--active');
-  player1El.classList.toggle('player--active');
+  player0El.classList.toggle("player--active");
+  player1El.classList.toggle("player--active");
 };
 
 //To roll the dice when roll dice btn is clicked.
-btnRoll.addEventListener('click', function () {
+btnRoll.addEventListener("click", function () {
   if (playable) {
     let dice = Math.floor(Math.random() * 6) + 1;
-    diceEl.classList.remove('hidden');
+    diceEl.classList.remove("hidden");
     diceEl.src = `images/dice-${dice}.png`;
 
     if (dice != 1) {
@@ -126,7 +130,7 @@ btnRoll.addEventListener('click', function () {
 });
 
 //To hold the currentScore
-btnHold.addEventListener('click', function () {
+btnHold.addEventListener("click", function () {
   if (playable) {
     holdAudio.play(); //audio plays while hold is clicked
 
@@ -141,11 +145,11 @@ btnHold.addEventListener('click', function () {
 
       document
         .querySelector(`.player--${activePlayer}`)
-        .classList.add('player--winner');
+        .classList.add("player--winner");
 
       document
         .querySelector(`.player--${activePlayer}`)
-        .classList.remove('player--active');
+        .classList.remove("player--active");
 
       document.querySelector(
         `#name--${activePlayer}`
@@ -163,9 +167,9 @@ btnHold.addEventListener('click', function () {
 
 //Resetting the game
 
-btnNew.addEventListener('click', function () {
+btnNew.addEventListener("click", function () {
   newGame.play(); //audio plays on newgame
   victory.pause();
 });
 
-btnNew.addEventListener('click', initiate); //Resetting game when new game is clicked
+btnNew.addEventListener("click", initiate); //Resetting game when new game is clicked
